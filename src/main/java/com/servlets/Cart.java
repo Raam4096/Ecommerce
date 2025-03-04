@@ -6,6 +6,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 
 /**
  * Servlet implementation class Cart
@@ -22,20 +24,25 @@ public class Cart extends HttpServlet {
         // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
+	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		  String  name=request.getParameter("pname");
+		  int price =Integer.parseInt(request.getParameter("price"));
+		  try{
+			  Connection con=Dbcon.getCon();
+			  String query="insert into cart values(?,?)";
+			  PreparedStatement ps=con.prepareStatement(query);
+			  ps.setString(1, name);
+			  ps.setInt(2, price);
+			  int res=ps.executeUpdate();
+			  if(res>0) {
+				  
+			  }
+		  }
+		  catch(Exception e) {
+			  e.printStackTrace();
+		  }
+		
 	}
 
 }
